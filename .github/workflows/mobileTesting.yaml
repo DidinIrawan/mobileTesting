@@ -20,19 +20,39 @@ jobs:
     # runs-on: server-mac-wahyu2
     runs-on: server-testing-didin
     steps:
-      - name: 🎉 Get latest code
+      - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      # - name: ✅ Set up JDK 11
-      #   uses: actions/setup-java@v1
-      #   with:
-      #     java-version: 11
+      - name: ✅ Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-      - name: Install dependencies
-        run: yarn install
+      - name: ✅ Use Node.js 19
+        uses: actions/setup-node@v2
+        with:
+          node-version: '19'
 
-      - name: Build Android App
-        run: cd android; ./gradlew assembleRelease
+     
+      - name: 🌊 Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: 🪄 Make Permission Executable
+        run: |
+          cd android && chmod +x ./gradlew
+
+      - name: ⚒️ Build Android APK
+        run: |
+          yarn build:dev
+
+      # - name: ⚒️ Build Android APK
+      #   run: |
+      #     cd android && ./gradlew assembleDebug --no-daemon
+
+      # - name: ⚙️ List Finishing Project Files
+      #   run: |
+      #     ls android/app/build/outputs/apk/debug/
 
       # - name: Send APK to Backend
       #   run: |
